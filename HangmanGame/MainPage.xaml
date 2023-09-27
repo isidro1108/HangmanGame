@@ -19,5 +19,11 @@
                     Text="Reset"
                     WidthRequest="100" />
         </VerticalStackLayout>
+        <FlexLayout Grid.Row="1">
+            <Button HeightRequest="50"
+                    WidthRequest="50"
+                    BackgroundColor="Navy"
+                    Text="A" />
+        </FlexLayout>
     </Grid>
 </ContentPage>
