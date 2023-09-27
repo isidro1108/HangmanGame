@@ -7,10 +7,18 @@ namespace HangmanGame
         #region UI Properties
         public string Spotlight
         {
-            get => spotlight;
-            set
+            get => spotlight; set
             {
                 spotlight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<char> Letters
+        {
+            get => letters; set
+            {
+                letters = value;
                 OnPropertyChanged();
             }
         }
@@ -28,10 +36,12 @@ namespace HangmanGame
         string answer = string.Empty;
         private string spotlight;
         List<char> guessed = new List<char>();
+        private List<char> letters = new List<char>();
         #endregion
         public MainPage()
         {
             InitializeComponent();
+            Letters.AddRange("abcdefghijklmnopqrstuvwxyz");
             BindingContext = this;
             PickWord();
             CalculateWord(answer, guessed);
