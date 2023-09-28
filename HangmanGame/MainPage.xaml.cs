@@ -73,7 +73,7 @@ namespace HangmanGame
         public MainPage()
         {
             InitializeComponent();
-            Letters.AddRange("abcdefghijklmnopqrstuvwxyz");
+            Letters.AddRange("qwertyuiopasdfghjklzxcvbnm");
             BindingContext = this;
             PickWord();
             CalculateWord(answer, guessed);
@@ -118,6 +118,30 @@ namespace HangmanGame
             if (mistakes == maxWrong)
             {
                 Message = "You Lost!!";
+                DisableLetters();
+            }
+        }
+
+        private void DisableLetters()
+        {
+            foreach (var children in LettersContainer.Children)
+            {
+                var btn = children as Button;
+                if (btn != null)
+                {
+                    btn.IsEnabled = false;
+                }
+            }
+        }
+        private void EnableLetters()
+        {
+            foreach (var children in LettersContainer.Children)
+            {
+                var btn = children as Button;
+                if (btn != null)
+                {
+                    btn.IsEnabled = true;
+                }
             }
         }
 
@@ -126,6 +150,7 @@ namespace HangmanGame
             if (Spotlight.Replace(" ", "") == answer)
             {
                 Message = "You win!!!";
+                DisableLetters();
             }
         }
 
@@ -144,6 +169,18 @@ namespace HangmanGame
                 btn.IsEnabled = false;
                 HandleGuess(letter[0]);
             }
+        }
+
+        private void Reset_Clicked(object sender, EventArgs e)
+        {
+            mistakes = 0;
+            guessed = new List<char>();
+            CurrentImage = "img0.jpg";
+            PickWord();
+            CalculateWord(answer, guessed);
+            Message = string.Empty;
+            UpdateStatus();
+            EnableLetters();
         }
     }
 }

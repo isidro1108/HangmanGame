@@ -15,11 +15,14 @@
             <Label FontSize="Large"
                    HorizontalTextAlignment="Center"
                    Text="{Binding Message}" />
-            <Button HorizontalOptions="Center"
+            <Button x:Name="Reset" 
+                    HorizontalOptions="Center"
                     Text="Reset"
-                    WidthRequest="100" />
+                    WidthRequest="100"
+                    Clicked="Reset_Clicked"/>
         </VerticalStackLayout>
-        <FlexLayout Grid.Row="1" 
+        <FlexLayout x:Name="LettersContainer" 
+                    Grid.Row="1" 
                     Wrap="Wrap" 
                     JustifyContent="SpaceEvenly"
                     BindableLayout.ItemsSource="{Binding Letters}">
