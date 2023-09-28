@@ -31,6 +31,24 @@ namespace HangmanGame
                 OnPropertyChanged();
             }
         }
+
+        public string GameStatus
+        {
+            get => gameStatus; set
+            {
+                gameStatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CurrentImage
+        {
+            get => currentImage; set
+            {
+                currentImage = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Fields
@@ -47,6 +65,10 @@ namespace HangmanGame
         List<char> guessed = new List<char>();
         private List<char> letters = new List<char>();
         private string message;
+        private string gameStatus;
+        int mistakes = 0;
+        int maxWrong = 6;
+        private string currentImage = "img0.jpg";
         #endregion
         public MainPage()
         {
@@ -70,18 +92,6 @@ namespace HangmanGame
                         .ToArray();
             Spotlight = string.Join(' ', temp);
         }
-        #endregion
-
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-             var btn = sender as Button;
-            if (btn != null)
-            {
-                var letter = btn.Text;
-                btn.IsEnabled = false;
-                HandleGuess(letter[0]);
-            }
-        }
 
         private void HandleGuess(char letter)
         {
@@ -94,6 +104,21 @@ namespace HangmanGame
                 CalculateWord(answer, guessed);
                 CheckIfGameWon();
             }
+            else if (answer.IndexOf(letter) == -1)
+            {
+                mistakes++;
+                UpdateStatus();
+                CheckIfGameLost();
+                CurrentImage = $"img{mistakes}.jpg";
+            }
+        }
+
+        private void CheckIfGameLost()
+        {
+            if (mistakes == maxWrong)
+            {
+                Message = "You Lost!!";
+            }
         }
 
         private void CheckIfGameWon()
@@ -101,6 +126,23 @@ namespace HangmanGame
             if (Spotlight.Replace(" ", "") == answer)
             {
                 Message = "You win!!!";
+            }
+        }
+
+        private void UpdateStatus()
+        {
+            GameStatus = $"Errors: {mistakes} of {maxWrong}";
+        }
+        #endregion
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+             var btn = sender as Button;
+            if (btn != null)
+            {
+                var letter = btn.Text;
+                btn.IsEnabled = false;
+                HandleGuess(letter[0]);
             }
         }
     }
